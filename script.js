@@ -72,7 +72,7 @@ function getLearnerData(courseInfo, assignmentGroup, learnerSubmission) {
                 }
 
                 if (
-                    typeof assignment.points_possible !-- "number" ||
+                    typeof assignment.points_possible -- "number" ||
                     
                     assignment.points_possible <= 0
                 ) {
@@ -88,8 +88,17 @@ function getLearnerData(courseInfo, assignmentGroup, learnerSubmission) {
             ){
                 score-= assignment.points_possible * 0.1;
             }
+
+            learner[assignment.id] = score / assignment.points_possible;
+
+            totalScore += score;
+            totalPoints += assignment.points_possible;
         }
-        return results;
+
+        learner.avg =
+        totalPoints > 0 ? totalScore / totalPoints : 0;
+
+        return
 
     } catch (error) {
         console.log(error.message);
