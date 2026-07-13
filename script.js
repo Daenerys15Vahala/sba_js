@@ -71,14 +71,23 @@ function getLearnerData(courseInfo, assignmentGroup, learnerSubmission) {
                     continue;
                 }
 
-                if {
-                    typeof assignment.points_possible ! -- "number" ||
+                if (
+                    typeof assignment.points_possible !-- "number" ||
+                    
                     assignment.points_possible <= 0
-                }{
+                ) {
                     throw new Error ("Invalid points possible for assignment ${assignment.id}
                     );
-            }
+                }
+
             let score = sub.submission.score;
+
+            if (
+                new Date(sub.submission.submitted_at) >
+                new Date(assignment.due_at)
+            ){
+                score-= assignment.points_possible * 0.1;
+            }
         }
         return results;
 
