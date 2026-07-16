@@ -1,10 +1,12 @@
-// The provided course information.
+// The provided course information.// SBA JAVASCRIPT FUNDAMENTALS
+
+// INFO
 const CourseInfo = {
   id: 451,
   name: "Introduction to JavaScript"
 };
 
-// The provided assignment group.
+
 const AssignmentGroup = {
   id: 12345,
   name: "Fundamentals of JavaScript",
@@ -32,7 +34,6 @@ const AssignmentGroup = {
   ]
 };
 
-// The provided learner submission data.
 const LearnerSubmissions = [
   {
     learner_id: 125,
@@ -108,7 +109,7 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions){
             const assignment = assignmentGroup.assignments.find(
                 assignment => assignment.id === submission.assignment_id
             );
-// invalid assignments
+            // invalid assignments
             if (!assignment){
                 continue;
             }
