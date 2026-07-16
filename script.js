@@ -76,10 +76,10 @@ const LearnerSubmissions = [
   }
 ];
 
-function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmission){
+function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions){
 
     try {
-    if (AssignmentGroup.course_id !== course.id) {
+    if (AssignmentGroup.course_id !== CourseInfo.id) {
         throw new Error("Assignment group does not belong to this course");
     }
 
@@ -92,3 +92,5 @@ function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmission){
         return [];
     }
 }
+
+console.log(getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions));
