@@ -1,4 +1,4 @@
-// The provided course information.// SBA JAVASCRIPT FUNDAMENTALS
+// SBA JAVASCRIPT FUNDAMENTALS
 
 // INFO
 const CourseInfo = {
