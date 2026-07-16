@@ -77,7 +77,7 @@ const LearnerSubmissions = [
 ];
 
 function getLearnerData(course, assignmentGroup, learnerSubmissions){
-
+// assignment group to course
     try {
     if (assignmentGroup.course_id !== CourseInfo.id) {
         throw new Error("Assignment group does not belong to this course");
@@ -85,10 +85,10 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions){
 
     const results = [];
 
+    // get id's
     const learnerIds = [...new Set(
         learnerSubmissions.map(sub => sub.learner_id)
     )];
-    console.log(learnerIds);
 
     for (const learnerId of learnerIds){
 
@@ -108,14 +108,45 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions){
             const assignment = assignmentGroup.assignments.find(
                 assignment => assignment.id === submission.assignment_id
             );
+// invalid assignments
+            if (!assignment){
+                continue;
+            }
+            // skip / not due 
+            if (new Date(assignment.due_at) > new Date()) {
+                continue;
+            }
 
-             console.log(assignment);
+            // points
 
+            if ( 
+                typeof assignment.points_possible !== "number" ||
+                assignment.points_possible <= 0
+            ){
+                throw new Error("invalid points possible");
+            }
+
+            let score = submission.submission.score;
+
+            // late
+
+            if (
+                new Date(submission.submission.submitted_at) >
+                new Date(assignment.due_at)
+            ){
+                score -= assignment.points_possible * 0.1;
+            }
+
+            learner[assignment.id] =
+            score / assignment.points_possible;
         }
-        console.log(submissions);
-        console.log(learner);
-    }
 
+        learner.avg =
+        totalPoints > 0 ? totalScore / totalPoints: 0;
+
+        results.push(learner);
+    }
+    
     return results;
 
     } catch (error) {
@@ -124,4 +155,5 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions){
     }
 }
 
-console.log(getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions));
+console.log(getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions)
+);
