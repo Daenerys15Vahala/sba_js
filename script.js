@@ -76,14 +76,45 @@ const LearnerSubmissions = [
   }
 ];
 
-function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions){
+function getLearnerData(course, assignmentGroup, learnerSubmissions){
 
     try {
-    if (AssignmentGroup.course_id !== CourseInfo.id) {
+    if (assignmentGroup.course_id !== CourseInfo.id) {
         throw new Error("Assignment group does not belong to this course");
     }
 
     const results = [];
+
+    const learnerIds = [...new Set(
+        learnerSubmissions.map(sub => sub.learner_id)
+    )];
+    console.log(learnerIds);
+
+    for (const learnerId of learnerIds){
+
+        const learner = {
+            id: learnerId
+        };
+
+        let totalScore = 0;
+        let totalPoints = 0;
+
+        const submissions = learnerSubmissions.filter(sub =>
+            sub.learner_id === learnerId
+        );
+
+        for (const submission of submissions){
+
+            const assignment = assignmentGroup.assignments.find(
+                assignment => assignment.id === submission.assignment_id
+            );
+
+             console.log(assignment);
+
+        }
+        console.log(submissions);
+        console.log(learner);
+    }
 
     return results;
 
